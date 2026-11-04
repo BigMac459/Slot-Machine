@@ -1,11 +1,11 @@
 # Slot Machine
 
 ## Game Overview
-A simple Slots Machine game. Select the amount of gold to place as a bet and pull the lever. Get more gold from winning combinations.
+- A simple Slots Machine game. Select the amount of gold to place as a bet and pull the lever. Get more gold from winning combinations.
 
-Starting balance is 1000G. Game is over once balance becomes insufficient (less than 10G).
+- Starting balance is 1000G. Game is over once balance becomes insufficient (less than 10G).
 
-Press the "R" button to reset the slot reels to starting position.
+- Press the button labelled "R" to reset the slot reels to starting position.
 
 ## WebGL Build Instructions
 The WebGL build of this game can be played on Unity Play: https://play.unity.com/en/games/34c6c6c1-49d5-4685-8f9a-90f872d2e721/slot-machine
