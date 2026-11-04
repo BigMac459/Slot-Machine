@@ -22,8 +22,8 @@ Recommended to play game in Full Screen.
 ## Thought Process and Approach
 I approached the project by setting up the required sprites and UI into the scene along with animators wherever required.
 
-Then creating the scripts to implement interaction, behaviour and game logic. This, included interaction with the pull lever (with animation), buttons and popups/dialog boxes, how the objects should move on the reels, UI updates to manage balance display, machine states and messages, and game logic to calculate payouts based on the combination achieved.
+Then I created the scripts to implement interaction, behaviour and game logic. This included interaction with the pull lever (with animation), buttons and popups/dialog boxes, how the objects should move on the reels, UI updates to manage and display balance, machine states and messages, and game logic to calculate payouts based on the combination achieved.
 
-I then added the symbols as scriptable objects that will appear at random on the reel stops (with fixed weights/number of times each symbol can appear), and possible winning combinations along with payout multipliers for each.
+I then added the symbols as scriptable objects that will appear in a randomized sequence on the reel stops (with fixed weights/number of times each symbol can appear), and possible winning combinations along with payout multipliers for each.
 
-Finally, I fixed a few bugs that occurred with message display and reel movement, and added a pay table.
+Finally, I fixed a few bugs that occurred with message display and reel movement, and added a pay table display.
