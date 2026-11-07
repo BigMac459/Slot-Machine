@@ -338,12 +338,17 @@ MonoBehaviour:
   startingBalance: 1000
   balanceText: {fileID: 0}
   betText: {fileID: 0}
-  bets: 0a000000140000003200000064000000
+  betAmounts: 0a000000140000003200000064000000
+  machineUI: {fileID: 0}
   lowerBetButton: {fileID: 0}
   raiseBetButton: {fileID: 0}
-  gameUI: {fileID: 0}
-  exitDialog: {fileID: 0}
-  gameOverDialog: {fileID: 0}
+  betsCount: {fileID: 0}
+  winsCount: {fileID: 0}
+  dialogBoxes:
+  - {fileID: 0}
+  - {fileID: 0}
+  gameOverIndex: 0
+  exitIndex: 1
   dialogBlocker: {fileID: 0}
   reelsHolder: {fileID: 1539249703856475021}
   statusText: {fileID: 3770828029805898474}
@@ -450,7 +455,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 6
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0

@@ -6,72 +6,104 @@ using UnityEngine.UI;
 
 public class SlotMachineController : MonoBehaviour
 {
+    //public static SlotMachineController Instance { get; private set; }
+    
     [Header("Gold")]
     [SerializeField, Min(10)] private int startingBalance = 500;
-    [SerializeField] private TextMeshProUGUI balanceText;
-    [SerializeField] private TextMeshProUGUI betText;
-    [SerializeField] private List<int> bets;
+    [SerializeField] private List<int> betAmounts;
 
     [Header("UI")]
+    [SerializeField] private TextMeshProUGUI balanceText;
+    [SerializeField] private TextMeshProUGUI betText;
+    [SerializeField] private CanvasGroup machineUI;
+
     [SerializeField] private Button lowerBetButton;
     [SerializeField] private Button raiseBetButton;
-    [SerializeField] private CanvasGroup gameUI;
-
-    [Header("Dialog Box")]
-    [SerializeField] private GameObject exitDialog;
-    [SerializeField] private GameObject gameOverDialog;
-    [SerializeField] private GameObject dialogBlocker;
+    private int totalBets = 0;
+    [SerializeField] private TextMeshProUGUI betsCount;
+    private int wins = 0;
+    [SerializeField] private TextMeshProUGUI winsCount;
+    [SerializeField] private int gameOverIndex;
+    [SerializeField] private int exitIndex;
 
     [Header("Slot Machine")]
     [SerializeField] private GameObject reelsHolder;
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private PayTableValues payTable;
-    
+
     private readonly List<SlotReel> reels = new();
 
-    private int betIndex;
     private bool gameActive = true;
     private Coroutine messageCoroutine;
     private Animator leverAnimator;
 
-    public int Balance { get; private set; }
-    public int CurrentBet => bets[betIndex];
-    public bool CanPlay => gameActive && !exitDialog.activeSelf && !gameOverDialog.activeSelf;
+    private int balance;
+    public int Balance
+    {
+        get => balance;
+        private set
+        {
+            balance = value;
+            balanceText.text = $"{Balance}G";
+        }
+    }
+
+    private int currentBetIndex;
+    public int CurrentBetAmount
+    {
+        get => betAmounts[currentBetIndex];
+        private set
+        {
+            currentBetIndex = Mathf.Clamp(betAmounts.IndexOf(value), 0, betAmounts.Count - 1);
+        }
+    }
+
+    public bool CanPlay {
+        get
+        {
+            return gameActive && !DialogBoxManager.Instance.IsPaused;
+        }
+    }
+
+    public string StatusText
+    {
+        get => statusText.text;
+        set
+        {
+            if (messageCoroutine != null)
+            {
+                StopCoroutine(messageCoroutine);
+                messageCoroutine = null;
+            }
+            statusText.text = value;
+        }
+    }
 
     private void Awake()
     {
-        foreach(Transform child in reelsHolder.transform)
-        {
+        // Instance = this;
+        foreach (Transform child in reelsHolder.transform)
             if (child != null)
                 reels.Add(child.GetComponent<SlotReel>());
-        }
     }
 
     private void Start()
     {
         leverAnimator = GetComponentInChildren<SlotLever>().GetComponent<Animator>();
         NewGame();
-        UpdateUI();
     }
 
-    public void Restart()
+    public void NewGame()
     {
-        if (gameOverDialog.activeSelf)
-            NewGame();
-    }
-
-    private void NewGame()
-    {
-        StopMessage();
         Balance = startingBalance;
-        betIndex = 0;
+        CurrentBetAmount = 0;
 
-        gameOverDialog.SetActive(false);
-        exitDialog.SetActive(false);
+        DialogBoxManager.Instance.HideAndResume();
 
         HomePositions();
-        statusText.text = "Ready!";
-        SetGameActive(true);
+        StatusText = "Ready!";
+        UpdateBetUI();
+        SetMachineActive(true);
     }
 
     public void HomePositions()
@@ -85,36 +117,43 @@ public class SlotMachineController : MonoBehaviour
 
     public void LowerBet()
     {
-        if (CanPlay && betIndex > 0)
+        if (CanPlay && currentBetIndex > 0)
         {
-            betIndex--;
-            UpdateUI();
+            currentBetIndex--;
+            UpdateBetUI();
         }
     }
 
     public void RaiseBet()
     {
-        if (CanPlay && betIndex < bets.Count - 1)
+        if (CanPlay && currentBetIndex < betAmounts.Count - 1)
         {
-            betIndex++;
-            UpdateUI();
+            currentBetIndex++;
+            UpdateBetUI();
         }
+    }
+
+    public void UpdateBetUI()
+    {
+        betText.text = $"{CurrentBetAmount}G";
+        lowerBetButton.interactable = currentBetIndex > 0;
+        raiseBetButton.interactable = currentBetIndex < betAmounts.Count - 1;
     }
 
     public void PullLeverAttempt()
     {
         if (CanPlay)
         {
-            if (Balance < CurrentBet)
+            if (Balance < CurrentBetAmount)
                 ShowMessage("Not enough gold!");
             else
             {
-                int spinBet = CurrentBet;
+                int spinBet = CurrentBetAmount;
                 Balance -= spinBet;
+                betsCount.text = (++totalBets).ToString();
 
-                SetGameActive(false);
-                StopMessage();
-                statusText.text = "Spinning...";
+                SetMachineActive(false);
+                StatusText = "Spinning...";
 
                 leverAnimator.SetTrigger("Pulled");
                 StartCoroutine(SpinReels(spinBet));
@@ -133,41 +172,45 @@ public class SlotMachineController : MonoBehaviour
             while (reel.IsSpinning)
                 yield return null;
 
-        float multiplier = payTable.GetPayoutMultiplier(reels);
+        float multiplier = payTable.GetPayoutMultiplier(reels, out Symbol winningSymbol);
         int payout = Mathf.RoundToInt(spinBet * multiplier);
 
         Balance += payout;
 
         if (Balance < 10)
-        {
-            StopMessage();
-            statusText.text = "Game Over!";
-            SetGameActive(false);
-            gameOverDialog.SetActive(true);
-        }
+            DialogBoxManager.Instance.GoToDialog(gameOverIndex);
         else
         {
-            if (multiplier == 777)
+            if (winningSymbol)
             {
-                StopMessage();
-                statusText.text = "Jackpot!";
-                yield return new WaitForSeconds(2.5f);
+                winsCount.text = (++wins).ToString();
+                if (winningSymbol.type == SymbolType.Jackpot)
+                    StatusText = "Jackpot!!";
+                else
+                    StatusText = "Win!";
             }
-            string result = payout > 0 ? $"Won {payout}G! (x{multiplier})" : "No match!";
+            else
+            {
+                if (payout > 0)
+                    StatusText = "Consolation!";
+                else
+                    StatusText = "No match!";
+            }
+            yield return new WaitForSeconds(1.5f);
+            string result = $"{payout}G (x{multiplier})";
             ShowMessage(result);
-            SetGameActive(true);
+            SetMachineActive(true);
         }
     }
 
     private void ShowMessage(string message)
     {
-        StopMessage();
         messageCoroutine = StartCoroutine(MessageRoutine(message));
     }
 
     private IEnumerator MessageRoutine(string message)
     {
-        statusText.text = message;
+        StatusText = message;
 
         yield return new WaitForSeconds(2.5f);
 
@@ -175,52 +218,24 @@ public class SlotMachineController : MonoBehaviour
         messageCoroutine = null;
     }
 
-    private void StopMessage()
-    {
-        if (messageCoroutine != null)
-        {
-            StopCoroutine(messageCoroutine);
-            messageCoroutine = null;
-        }
-    }
-
-    public void ExitDialog(bool open)
-    {
-        if (!open || !gameOverDialog.activeSelf)
-        {
-            exitDialog.SetActive(open);
-            Time.timeScale = open ? 0f : 1f;
-            UpdateUI();
-        }
-    }
-
-    public void SetGameActive(bool active)
+    public void SetMachineActive(bool active)
     {
         gameActive = active;
-        UpdateUI();
+        machineUI.interactable = CanPlay;
+        machineUI.blocksRaycasts = CanPlay;
     }
 
-    public void UpdateUI()
+    public void ExitDialog()
     {
-        balanceText.text = $"Balance: {Balance}G";
-        betText.text = $"{CurrentBet}G";
-        lowerBetButton.interactable = betIndex > 0;
-        raiseBetButton.interactable = betIndex < bets.Count - 1;
-
-        gameUI.interactable = CanPlay;
-        gameUI.blocksRaycasts = CanPlay;
-        dialogBlocker.SetActive(exitDialog.activeSelf || gameOverDialog.activeSelf);
+        DialogBoxManager.Instance.GoToDialog(exitIndex);
     }
 
     public void QuitGame()
-    {
-        if (exitDialog.activeSelf || gameOverDialog.activeSelf)
-        {
+    { 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
-        }
     }
 }

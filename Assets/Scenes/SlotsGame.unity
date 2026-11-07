@@ -119,6 +119,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &18609129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5321636004369800844, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
+  m_PrefabInstance: {fileID: 839246675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &39641531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 144262302395824736, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
+  m_PrefabInstance: {fileID: 839246675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &183980103
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,10 +697,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4461318388912421675, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 828073793}
     - target: {fileID: 5084790952155306777, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -884,6 +902,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
+--- !u!114 &839246676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8876941318087633564, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
+  m_PrefabInstance: {fileID: 839246675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1445821928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,16 +1053,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3331169573209266391 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 488228814749154531, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
-  m_PrefabInstance: {fileID: 839246675}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3938712026484899336 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2185694076386482748, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
-  m_PrefabInstance: {fileID: 839246675}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4333983996480229747 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1502337424732157255, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
@@ -1050,22 +1069,6 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 1458045073801833143, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
   m_PrefabInstance: {fileID: 839246675}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5476185160703195971 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7134662737056718711, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
-  m_PrefabInstance: {fileID: 839246675}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6458040742846394085 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8170560241589160657, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
-  m_PrefabInstance: {fileID: 839246675}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!114 &7424879913905754483 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5761863586570368327, guid: 57893c6a96fc6444a92bbd29d3d2c0dc, type: 3}
@@ -1098,7 +1101,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2202537353679034889, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5
+      value: -3.4
       objectReference: {fileID: 0}
     - target: {fileID: 2202537353679034889, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1137,29 +1140,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
-      propertyPath: gameUI
-      value: 
-      objectReference: {fileID: 4377565718698692227}
-    - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
       propertyPath: betText
       value: 
       objectReference: {fileID: 4333983996480229747}
     - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
-      propertyPath: exitDialog
+      propertyPath: betsCount
       value: 
-      objectReference: {fileID: 5476185160703195971}
+      objectReference: {fileID: 18609129}
+    - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
+      propertyPath: machineUI
+      value: 
+      objectReference: {fileID: 4377565718698692227}
+    - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
+      propertyPath: winsCount
+      value: 
+      objectReference: {fileID: 39641531}
     - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
       propertyPath: balanceText
       value: 
-      objectReference: {fileID: 6458040742846394085}
-    - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
-      propertyPath: dialogBlocker
-      value: 
-      objectReference: {fileID: 3331169573209266391}
-    - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
-      propertyPath: gameOverDialog
-      value: 
-      objectReference: {fileID: 3938712026484899336}
+      objectReference: {fileID: 839246676}
     - target: {fileID: 4613454258350002991, guid: 3f91ea645e59d6e43b666630f0f72494, type: 3}
       propertyPath: lowerBetButton
       value: 

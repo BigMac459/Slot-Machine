@@ -5,8 +5,8 @@ using UnityEngine;
 public class SlotReel : MonoBehaviour
 {
     // Speed range for each reel. Actual speed is random for each reel between this range.
-    [SerializeField, Min(0.1f)] private float minSpeed = 15f;
-    [SerializeField, Min(0.1f)] private float maxSpeed = 30f;
+    [SerializeField, Min(0.1f)] private float minSpeed;
+    [SerializeField, Min(0.1f)] private float maxSpeed;
 
     [SerializeField] private Symbol startingSymbol;
 
