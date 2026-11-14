@@ -20,6 +20,11 @@ public class DialogBoxManager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void HideAllDialogueBoxes()
     {
         foreach (GameObject dialog in dialogBoxes)
@@ -41,5 +46,19 @@ public class DialogBoxManager : MonoBehaviour
             dialogBoxes[index].SetActive(true);
             IsPaused = true;
         }
+    }
+
+    public void RestartGame()
+    {
+        SlotMachineController.Instance.NewGame();
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 }

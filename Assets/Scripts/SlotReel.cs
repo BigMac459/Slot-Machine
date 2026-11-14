@@ -27,7 +27,7 @@ public class SlotReel : MonoBehaviour
             stops.Add(child.gameObject.GetComponent<ReelStop>());
     }
 
-    public void Initialize(List<Symbol> symbols)
+    public void Initialize(List<SlotSymbol> slotSymbols)
     {
         // Fixed positions of the stops on the reel
         stopPositions = new Vector3[stops.Count];
@@ -37,7 +37,7 @@ public class SlotReel : MonoBehaviour
         IsSpinning = false;
 
         // Newly-shuffled symbol sequence
-        CreateSequence(symbols);
+        CreateSequence(slotSymbols);
 
         nextSymbolIndex = 0;
         middleIndex = stops.Count / 2;
@@ -47,12 +47,12 @@ public class SlotReel : MonoBehaviour
     }
 
     // At the start of every game, the sequence of symbols on the reel is randomized
-    private void CreateSequence(List<Symbol> symbols)
+    private void CreateSequence(List<SlotSymbol> slotSymbols)
     {
         sequence.Clear();
-        foreach (Symbol symbol in symbols)
-            for (int i = 0; i < symbol.noOfStops; i++)
-                sequence.Add(symbol);
+        foreach (SlotSymbol slotSymbol in slotSymbols)
+            for (int i = 0; i < slotSymbol.noOfStops; i++)
+                sequence.Add(slotSymbol.symbol);
 
         // Shuffles the sequence
         for (int i = sequence.Count - 1; i > 0; i--)

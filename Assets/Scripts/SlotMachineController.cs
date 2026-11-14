@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class SlotMachineController : MonoBehaviour
 {
-    //public static SlotMachineController Instance { get; private set; }
+    public static SlotMachineController Instance { get; private set; }
     
     [Header("Gold")]
     [SerializeField, Min(10)] private int startingBalance = 500;
@@ -16,12 +16,11 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI balanceText;
     [SerializeField] private TextMeshProUGUI betText;
     [SerializeField] private CanvasGroup machineUI;
+    [SerializeField] private PayTableUI payTableUI;
 
     [SerializeField] private Button lowerBetButton;
     [SerializeField] private Button raiseBetButton;
-    private int totalBets = 0;
     [SerializeField] private TextMeshProUGUI betsCount;
-    private int wins = 0;
     [SerializeField] private TextMeshProUGUI winsCount;
     [SerializeField] private int gameOverIndex;
     [SerializeField] private int exitIndex;
@@ -29,13 +28,17 @@ public class SlotMachineController : MonoBehaviour
     [Header("Slot Machine")]
     [SerializeField] private GameObject reelsHolder;
     [SerializeField] private TextMeshProUGUI statusText;
-    [SerializeField] private PayTableValues payTable;
+    [SerializeField] private SlotMachineSettings defaultMachineSettings;
 
     private readonly List<SlotReel> reels = new();
 
     private bool gameActive = true;
     private Coroutine messageCoroutine;
     private Animator leverAnimator;
+    private int totalBets = 0;
+    private int wins = 0;
+
+    public SlotMachineSettings CurrentSettings { get; set; }
 
     private int balance;
     public int Balance
@@ -58,12 +61,7 @@ public class SlotMachineController : MonoBehaviour
         }
     }
 
-    public bool CanPlay {
-        get
-        {
-            return gameActive && !DialogBoxManager.Instance.IsPaused;
-        }
-    }
+    public bool CanPlay => gameActive && !DialogBoxManager.Instance.IsPaused;
 
     public string StatusText
     {
@@ -81,7 +79,7 @@ public class SlotMachineController : MonoBehaviour
 
     private void Awake()
     {
-        // Instance = this;
+        Instance = this;
         foreach (Transform child in reelsHolder.transform)
             if (child != null)
                 reels.Add(child.GetComponent<SlotReel>());
@@ -90,6 +88,7 @@ public class SlotMachineController : MonoBehaviour
     private void Start()
     {
         leverAnimator = GetComponentInChildren<SlotLever>().GetComponent<Animator>();
+        CurrentSettings = defaultMachineSettings;
         NewGame();
     }
 
@@ -99,7 +98,7 @@ public class SlotMachineController : MonoBehaviour
         CurrentBetAmount = 0;
 
         DialogBoxManager.Instance.HideAndResume();
-
+        SetupPayTable();
         HomePositions();
         StatusText = "Ready!";
         UpdateBetUI();
@@ -108,11 +107,16 @@ public class SlotMachineController : MonoBehaviour
 
     public void HomePositions()
     {
-        var symbols = new List<Symbol>(payTable.threeMatches.Count);
-        foreach (var match in payTable.threeMatches)
-            symbols.Add(match.symbol);
+        var symbols = new List<SlotSymbol>(CurrentSettings.threeMatches.Count);
+        foreach (var match in CurrentSettings.threeMatches)
+            symbols.Add(match);
         foreach (SlotReel reel in reels)
             reel.Initialize(symbols);
+    }
+
+    public void SetupPayTable()
+    {
+        payTableUI.Refresh(CurrentSettings);
     }
 
     public void LowerBet()
@@ -172,35 +176,37 @@ public class SlotMachineController : MonoBehaviour
             while (reel.IsSpinning)
                 yield return null;
 
-        float multiplier = payTable.GetPayoutMultiplier(reels, out Symbol winningSymbol);
+        StartCoroutine(WinPayout(spinBet));
+    }
+
+    private IEnumerator WinPayout(int spinBet)
+    {
+        float multiplier = CurrentSettings.GetPayoutMultiplier(reels, out Symbol winningSymbol);
         int payout = Mathf.RoundToInt(spinBet * multiplier);
 
         Balance += payout;
+        if (winningSymbol)
+        {
+            winsCount.text = (++wins).ToString();
+            if (winningSymbol.type == SymbolType.Jackpot)
+                StatusText = "Jackpot!!";
+            else
+                StatusText = "Win!";
+        }
+        else
+        {
+            if (multiplier > 0)
+                StatusText = "Consolation!";
+            else
+                StatusText = "No match!";
+        }
+        yield return new WaitForSeconds(1.5f);
+        ShowMessage($"{payout}G (x{multiplier})");
 
         if (Balance < 10)
             DialogBoxManager.Instance.GoToDialog(gameOverIndex);
         else
-        {
-            if (winningSymbol)
-            {
-                winsCount.text = (++wins).ToString();
-                if (winningSymbol.type == SymbolType.Jackpot)
-                    StatusText = "Jackpot!!";
-                else
-                    StatusText = "Win!";
-            }
-            else
-            {
-                if (payout > 0)
-                    StatusText = "Consolation!";
-                else
-                    StatusText = "No match!";
-            }
-            yield return new WaitForSeconds(1.5f);
-            string result = $"{payout}G (x{multiplier})";
-            ShowMessage(result);
             SetMachineActive(true);
-        }
     }
 
     private void ShowMessage(string message)
@@ -228,14 +234,5 @@ public class SlotMachineController : MonoBehaviour
     public void ExitDialog()
     {
         DialogBoxManager.Instance.GoToDialog(exitIndex);
-    }
-
-    public void QuitGame()
-    { 
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
     }
 }

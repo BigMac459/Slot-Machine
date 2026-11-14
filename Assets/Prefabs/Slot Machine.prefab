@@ -336,23 +336,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotMachineController
   startingBalance: 1000
+  betAmounts: 0a000000140000003200000064000000
   balanceText: {fileID: 0}
   betText: {fileID: 0}
-  betAmounts: 0a000000140000003200000064000000
   machineUI: {fileID: 0}
   lowerBetButton: {fileID: 0}
   raiseBetButton: {fileID: 0}
   betsCount: {fileID: 0}
   winsCount: {fileID: 0}
-  dialogBoxes:
-  - {fileID: 0}
-  - {fileID: 0}
   gameOverIndex: 0
   exitIndex: 1
-  dialogBlocker: {fileID: 0}
   reelsHolder: {fileID: 1539249703856475021}
   statusText: {fileID: 3770828029805898474}
-  payTable: {fileID: 11400000, guid: 2fb60b7d45dd61c4fa4d6fea0defe3be, type: 2}
+  defaultMachineSettings: {fileID: 11400000, guid: 2fb60b7d45dd61c4fa4d6fea0defe3be, type: 2}
 --- !u!1 &5964583625489717702
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +424,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4287420927
-  m_fontColor: {r: 1, g: 0.8494444, b: 0.55, a: 1}
+  m_fontColor: {r: 1, g: 0.7082435, b: 0.301, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
