@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class DialogBoxManager : MonoBehaviour
 {
     public static DialogBoxManager Instance { get; private set; }
+
+    [DllImport("__Internal")]
+    private static extern void ReloadPage();
 
     [SerializeField] private List<GameObject> dialogBoxes;
     [SerializeField] private GameObject dialogBackdrop;
@@ -57,8 +61,10 @@ public class DialogBoxManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        ReloadPage();
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 }
