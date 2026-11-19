@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -182,7 +184,7 @@ public class SlotMachineController : MonoBehaviour
     private IEnumerator WinPayout(int spinBet)
     {
         float multiplier = CurrentSettings.GetPayoutMultiplier(reels, out Symbol winningSymbol);
-        int payout = Mathf.RoundToInt(spinBet * multiplier);
+        int payout = (int)Math.Round(spinBet * (decimal)multiplier, MidpointRounding.AwayFromZero);
 
         Balance += payout;
         if (winningSymbol)
@@ -203,7 +205,7 @@ public class SlotMachineController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         ShowMessage($"{payout}G (x{multiplier})");
 
-        if (Balance < 10)
+        if (Balance < betAmounts.Min())
             DialogBoxManager.Instance.GoToDialog(gameOverIndex);
         else
             SetMachineActive(true);

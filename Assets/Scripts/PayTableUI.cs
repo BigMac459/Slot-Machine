@@ -5,12 +5,16 @@ using UnityEngine;
 public abstract class PayTableRow : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI multiplierText;
-
     public bool permanent;
 
     public void SetMultiplier(float multiplier)
     {
         multiplierText.text = $"x{multiplier:0.##}";
+    }
+
+    public void MarkAsJackpot()
+    {
+        multiplierText.fontStyle = FontStyles.Bold | FontStyles.Underline;
     }
 }
 
@@ -45,6 +49,8 @@ public class PayTableUI : MonoBehaviour
                 ThreeMatchRow row =
                     Instantiate(threeMatchPrefab, threeMatchParent).GetComponent<ThreeMatchRow>();
                 row.SetRow(match.symbol, match.multiplier);
+                if (match.symbol.type == SymbolType.Jackpot)
+                    row.MarkAsJackpot();
             }
             
             List<MiscRow> miscRows = new();

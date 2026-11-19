@@ -18,36 +18,36 @@ MonoBehaviour:
     noOfStops: 1
     multiplier: 777
   - symbol: {fileID: 11400000, guid: 09d5d8b90cdc2ba4e831cdc20cb51c3d, type: 2}
-    noOfStops: 5
+    noOfStops: 7
     multiplier: 343
   - symbol: {fileID: 11400000, guid: d94416568e1a3a643ad26e38a455e61d, type: 2}
-    noOfStops: 7
-    multiplier: 140
+    noOfStops: 9
+    multiplier: 147
   - symbol: {fileID: 11400000, guid: 12227e30a198a284b851c51383522b49, type: 2}
-    noOfStops: 14
-    multiplier: 84
+    noOfStops: 15
+    multiplier: 77
   - symbol: {fileID: 11400000, guid: e0bc6c6746b3daa41bb8171d21c126f4, type: 2}
     noOfStops: 21
-    multiplier: 28
+    multiplier: 21
   - symbol: {fileID: 11400000, guid: 074e371b922de0e44bfe7588fc115091, type: 2}
-    noOfStops: 10
-    multiplier: 111
+    noOfStops: 11
+    multiplier: 133
   - symbol: {fileID: 11400000, guid: 52af525ab906c2844b9885ddd1a88435, type: 2}
-    noOfStops: 12
-    multiplier: 90
+    noOfStops: 13
+    multiplier: 98
   - symbol: {fileID: 11400000, guid: 1420be7880f4a5a4185ce18318789300, type: 2}
-    noOfStops: 15
-    multiplier: 65
+    noOfStops: 16
+    multiplier: 63
   - symbol: {fileID: 11400000, guid: 98f5a2789dfa3b94fa65deecaddcd0f7, type: 2}
     noOfStops: 19
-    multiplier: 42
+    multiplier: 35
   - symbol: {fileID: 11400000, guid: 057dabeeec7c89540a664e8469ceee35, type: 2}
-    noOfStops: 24
-    multiplier: 21
-  twoBells: 0.9
-  twoTripleBars: 0.72
-  mixedBars: 0.55
-  twoDoubleBars: 0.64
-  twoSingleBars: 0.42
-  twoIdenticalFruits: 0.36
-  mixedFruits: 0.33
+    noOfStops: 23
+    multiplier: 14
+  twoBells: 1.4
+  twoTripleBars: 0.98
+  mixedBars: 0.77
+  twoDoubleBars: 0.84
+  twoSingleBars: 0.63
+  twoIdenticalFruits: 0.56
+  mixedFruits: 0.49
